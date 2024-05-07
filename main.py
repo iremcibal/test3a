@@ -31,12 +31,16 @@ class Test_Sauce:
         self.driver.get("https://www.saucedemo.com/")
         WebDriverWait(self.driver,5).until(expected_conditions.visibility_of_element_located((By.ID,"user-name")))
         username = self.driver.find_element(By.ID,"user-name")
-        username.send_keys("standard_user")
         WebDriverWait(self.driver,5).until(expected_conditions.visibility_of_element_located((By.ID,"password")))
         password = self.driver.find_element(By.NAME,"password")
-        password.send_keys("secret_sauce")
         WebDriverWait(self.driver,5).until(expected_conditions.visibility_of_element_located((By.ID,"login-button")))
         loginButton = self.driver.find_element(By.ID,"login-button")
+        #action chains
+        actions = ActionChains(self.driver)
+        actions.send_keys_to_element(username,"standard_user")
+        actions.send_keys_to_element(password,"secret_sauce")
+        actions.move_to_element(loginButton) #elementin olduğu yere sayfayı taşı anlamına geliyor 
+        actions.perform() #depolanmış aksiyonlarımızı çalıştırır
         loginButton.click()
         appLogo = self.driver.find_element(By.CLASS_NAME,"app_logo")
         testResult = appLogo.text == "Swag Labs"
@@ -46,3 +50,5 @@ class Test_Sauce:
 testClass = Test_Sauce()
 testClass.test_invalid_login()
 testClass.test_valid_login()
+
+#self.driver.execute.script("window.scrollTo(0,500)")
