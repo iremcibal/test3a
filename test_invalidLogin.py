@@ -9,11 +9,12 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from constants import globalConstants
 
 class TestInvalidLogin():
   def setup_method(self, method):
     self.driver = webdriver.Chrome()
-    self.driver.get("https://www.saucedemo.com/")
+    self.driver.get(globalConstants.BASE_URL)
     self.driver.maximize_window()
     self.vars = {}
   
@@ -21,11 +22,11 @@ class TestInvalidLogin():
     self.driver.quit()
   
   def test_invalidLogin(self):
-    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, "user-name")))
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, globalConstants.username_id)))
     self.driver.find_element(By.ID, "user-name").send_keys("1")
-    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, "password")))
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, globalConstants.password_id)))
     self.driver.find_element(By.ID, "password").send_keys("1")
-    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, "login-button")))
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, globalConstants.login_button_id)))
     self.driver.find_element(By.ID, "login-button").click()
     assert self.driver.find_element(By.CSS_SELECTOR, "*[data-test=\"error\"]").text == "Epic sadface: Username and password do not match any user in this service"
   
