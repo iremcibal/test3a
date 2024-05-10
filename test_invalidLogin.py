@@ -21,10 +21,11 @@ class TestInvalidLogin():
     self.driver.quit()
   
   def test_invalidLogin(self):
-    self.driver.find_element(By.ID, "user-name").click()
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, "user-name")))
     self.driver.find_element(By.ID, "user-name").send_keys("1")
-    self.driver.find_element(By.NAME, "password").click()
-    self.driver.find_element(By.NAME, "password").send_keys("1")
-    self.driver.find_element(By.XPATH, "//input[@id=\'login-button\']").click()
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, "password")))
+    self.driver.find_element(By.ID, "password").send_keys("1")
+    WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located((By.ID, "login-button")))
+    self.driver.find_element(By.ID, "login-button").click()
     assert self.driver.find_element(By.CSS_SELECTOR, "*[data-test=\"error\"]").text == "Epic sadface: Username and password do not match any user in this service"
   
